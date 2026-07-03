@@ -158,9 +158,17 @@ async def send_5min_embed_report():
     full_message = "\n".join(content_lines)
     if len(full_message) > 2000:
         full_message = full_message[:1900] + "\n... (데이터 대량 생략)"
-        
+
     try:
         await channel.send(full_message)
+    except Exception as e:
+        print(f"[메시지 전송 에러] {e}")
+
+    last_stats = current_stats.copy()
+
+    for key in details:
+        details[key].clear()
+        
     except Exception as e:
         print(f"[메시지 전송 에러] {e}")
 
