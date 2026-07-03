@@ -84,9 +84,7 @@ async def receive_polygon_data(request: Request):
         msg_data = item.get("message", item)
         event_type = item.get("type", msg_data.get("type"))
         
-        lat = msg_data.get("latitude")
-        lng = msg_data.get("longitude")
-        loc_name = await get_location_name(lat, lng)
+        loc_name = "Unknown"
         
         if event_type == "catch" or event_type == "pokemon":
             current_stats["캐치"] += 1
@@ -168,6 +166,9 @@ async def send_5min_embed_report():
         
     last_stats = current_stats.copy()
 
+for key in details:
+    details[key].clear()
+    
 @bot.event
 async def on_ready():
     print(f"====================================")
