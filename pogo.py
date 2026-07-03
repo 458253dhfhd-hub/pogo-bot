@@ -21,8 +21,16 @@ app = FastAPI()
 
 current_stats = {
     "date": datetime.now().date(),
-    "로켓단": 0, "캐치": 0, "Shiny": 0, "레이드": 0, "맥스배틀": 0,
-    "저격": 0, "항로": 0, "퀘스트": 0, "루어": 0, "도망": 0
+    "로켓단": 0,
+    "캐치": 0,
+    "Shiny": 0,
+    "레이드": 0,
+    "맥스배틀": 0,
+    "저격": 0,
+    "향로": 0,
+    "퀘스트": 0,
+    "루어": 0,
+    "도망": 0
 }
 
 last_stats = current_stats.copy()
@@ -123,7 +131,6 @@ async def send_5min_embed_report():
     
     channel = bot.get_channel(SEND_CHANNEL_ID)
     if not channel:
-        print("[오류] 채널 ID를 찾을 수 없습니다. 숫자가 맞는지 확인하세요.")
         return
 
     now_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -135,6 +142,7 @@ async def send_5min_embed_report():
         f"🔷 **{USER_NICKNAME}**"
     ]
     
+    # 여기서 키 이름을 current_stats와 정확히 일치시킴
     for key in ["로켓단", "캐치", "Shiny", "레이드", "맥스배틀", "저격", "향로", "퀘스트", "루어", "도망"]:
         diff = current_stats[key] - last_stats[key]
         diff_str = f" (▲ {diff})" if diff > 0 else " (-)"
