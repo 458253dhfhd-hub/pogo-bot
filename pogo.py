@@ -1,3 +1,4 @@
+from threading import Thread
 import os
 import discord
 from discord.ext import commands, tasks
@@ -169,10 +170,13 @@ async def on_ready():
     if not send_5min_embed_report.is_running():
         send_5min_embed_report.start()
 
-async def main():
-    config = uvicorn.Config(app, host="0.0.0.0", port=8000, log_level="warning")
-    server = uvicorn.Server(config)
-    await asyncio.gather(server.serve(), bot.start(DISCORD_TOKEN))
+def run_server():
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    # 웹 서버 스레드 시작
+    server_thread = Thread(target=run_server)
+    server_thread.start()
+    
+    # 디스코드 봇 시작
+    bot.run(DISCORD_TOKEN)
