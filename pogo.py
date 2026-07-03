@@ -68,6 +68,10 @@ def check_date_reset():
 @app.post("/webhook")
 async def receive_polygon_data(request: Request):
     global current_stats, details
+    
+    body = await request.body()
+    print(body.decode(errors="ignore"))
+
     check_date_reset()
     
     try:
